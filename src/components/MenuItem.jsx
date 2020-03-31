@@ -18,11 +18,11 @@ const MenuItem = props => {
 								alignItems: "center",
 								justifyContent: "center",
 								position: "relative",
-								userSelect: "none",
+								// userSelect: "none",
 								padding: "16",
 								margin: "10px auto",
 								minHeight: "50px",
-								maxWidth: "70%",
+								// maxWidth: "70%", CAUSES WEIRD SHIFTING
 								backgroundColor: snapshot.isDragging ? "#e09873" : "#a37f6f",
 								borderRadius: "5%",
 								color: "white",

@@ -28,6 +28,25 @@
 	padding: 1rem;
 	margin: 1rem 0;
 }
+.add-btn {
+	cursor: pointer;
+	background-color: #3ca3e7;
+	border: 0;
+	color: #fff;
+	font-size: 20px;
+	padding: 2px 5px;
+	position: absolute;
+	left: -5%;
+	opacity: 0;
+	transition: opacity 0.3s ease-in;
+}
+
+.category:hover {
+	cursor: pointer;
+}
+.category:hover .add-btn {
+	opacity: 1;
+}
 
 .delete-btn {
 	cursor: pointer;

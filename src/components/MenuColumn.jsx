@@ -16,7 +16,7 @@ const MenuColumn = props => {
 						background: "#aed1d6",
 						boxShadow: "#000 1px 2px 5px",
 						width: 450,
-						height: "50rem",
+						height: "50%",
 						minHeight: 500,
 						margin: "10px",
 						padding: "5%"

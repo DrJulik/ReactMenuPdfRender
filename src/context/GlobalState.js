@@ -2,52 +2,6 @@ import React, { createContext, useReducer } from "react";
 import AppReducer from "./AppReducer";
 
 const initialState = {
-	// menuColumns: {
-	// 	MenuLibrary: {
-	// 		name: "Menu Items",
-	// 		categories: [
-	// 			{
-	// 				id: uuid(),
-	// 				title: "Appetizers",
-	// 				items: [
-	// 					{ id: uuid(), name: "Chicken Fingers" },
-	// 					{ id: uuid(), name: "PB Fingers" }
-	// 				]
-	// 			},
-	// 			{
-	// 				id: uuid(),
-	// 				title: "Main Courses",
-	// 				items: []
-	// 			},
-	// 			{
-	// 				id: uuid(),
-	// 				title: "Desserts",
-	// 				items: []
-	// 			}
-	// 		]
-	// 	},
-	// 	SelectedItems: {
-	// 		name: "Active Menu",
-	// 		categories: [
-	// 			{
-	// 				id: uuid(),
-	// 				title: "Appetizers",
-	// 				items: []
-	// 			},
-	// 			{
-	// 				id: uuid(),
-	// 				title: "Main Courses",
-	// 				items: []
-	// 			},
-	// 			{
-	// 				id: uuid(),
-	// 				title: "Desserts",
-	// 				items: []
-	// 			}
-	// 		]
-	// 	}
-	// },
-
 	items: {
 		"item-1": {
 			id: "item-1",
@@ -106,7 +60,9 @@ const initialState = {
 			categoryIds: ["category-4", "category-5", "category-6"]
 		}
 	},
-	columnOrder: ["column-1", "column-2"]
+	columnOrder: ["column-1", "column-2"],
+	showRender: false,
+	addingItem: false
 };
 
 export const GlobalContext = createContext(initialState);
@@ -116,18 +72,53 @@ export const GlobalProvider = ({ children }) => {
 
 	// actions
 
-	function updateCategories(newState) {
+	function toggleAdding(toggle) {
+		dispatch({
+			type: "TOGGLE_ADDING",
+			payload: toggle
+		});
+	}
+	function deleteItem(newItems) {
+		dispatch({
+			type: "DELETE_ITEM",
+			payload: newItems
+		});
+	}
+	function addItem(newItem) {
+		dispatch({
+			type: "ADD_ITEM",
+			payload: newItem
+		});
+	}
+	function updateCategory(newCategory) {
+		dispatch({
+			type: "UPDATE_CATEGORY",
+			payload: newCategory
+		});
+	}
+	function updateCategories(newCategories) {
 		dispatch({
 			type: "UPDATE_CATEGORIES",
-			payload: newState
+			payload: newCategories
+		});
+	}
+	function renderPdf(renderValue) {
+		dispatch({
+			type: "RENDER_PDF",
+			payload: renderValue
 		});
 	}
 
 	return (
 		<GlobalContext.Provider
 			value={{
-				state: initialState,
-				updateCategories
+				state: state,
+				updateCategory,
+				updateCategories,
+				renderPdf,
+				addItem,
+				deleteItem,
+				toggleAdding
 			}}
 		>
 			{children}

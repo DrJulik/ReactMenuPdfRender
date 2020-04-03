@@ -1,11 +1,40 @@
-import React from "react";
+import React, { useContext } from "react";
+import { GlobalContext } from "../context/GlobalState";
 import { Draggable } from "react-beautiful-dnd";
 
 const MenuItem = props => {
-	const { item, index } = props;
+	const { state, deleteItem } = useContext(GlobalContext);
+	const { item, index, categoryId } = props;
 	return (
 		<Draggable draggableId={item.id} index={index}>
 			{(provided, snapshot) => {
+				const deleteThisItem = id => {
+					// Object.filter = (obj, predicate) =>
+					// 	Object.keys(obj)
+					// 		.filter(key => predicate(obj[key]))
+					// 		.reduce((res, key) => ((res[key] = obj[key]), res), {});
+
+					// const { ...oldItems } = state.items;
+					// let items = Object.filter(oldItems, item => item.id !== id);
+					// deleteItem({ items });
+
+					const workingCat = state.categories[categoryId];
+					const workingItems = workingCat.itemIds;
+
+					const filteredItems = workingItems.filter(item => item !== id);
+
+					const newCategory = {
+						...workingCat,
+						itemIds: filteredItems
+					};
+
+					const updatedCategory = {
+						...state.categories,
+						[newCategory.id]: newCategory
+					};
+
+					deleteItem(updatedCategory);
+				};
 				return (
 					<>
 						<div
@@ -18,11 +47,9 @@ const MenuItem = props => {
 								alignItems: "center",
 								justifyContent: "center",
 								position: "relative",
-								// userSelect: "none",
 								padding: "16",
 								margin: "10px auto",
 								minHeight: "50px",
-								// maxWidth: "70%", CAUSES WEIRD SHIFTING
 								backgroundColor: snapshot.isDragging ? "#e09873" : "#a37f6f",
 								borderRadius: "5%",
 								color: "white",
@@ -30,7 +57,13 @@ const MenuItem = props => {
 							}}
 						>
 							<h4 style={{ color: "black" }}>{item.name}</h4>
-							<button className="delete-btn">X</button>
+
+							<button
+								className="delete-btn"
+								onClick={deleteThisItem.bind(this, item.id)}
+							>
+								X
+							</button>
 						</div>
 					</>
 				);

@@ -4,8 +4,13 @@ import { Droppable } from "react-beautiful-dnd";
 import MenuItem from "./MenuItem";
 
 const MenuCategory = props => {
-	const { state } = useContext(GlobalContext);
+	const { state, toggleAdding } = useContext(GlobalContext);
 	const { id, name, items } = props;
+
+	const addItem = () => {
+		toggleAdding(!state.addingItem);
+		console.log("add item");
+	};
 	return (
 		<div
 			className="category"
@@ -18,10 +23,13 @@ const MenuCategory = props => {
 			}}
 		>
 			<h3 style={{ margin: "10px 0" }}>{name}</h3>{" "}
-			<button className="add-btn">+</button>
+			<button className="add-btn" onClick={addItem}>
+				+
+			</button>
 			<Droppable droppableId={id}>
 				{provided => (
 					<div {...provided.droppableProps} ref={provided.innerRef}>
+						{state.addingItem && <input></input>}
 						{items.map((itemId, index) => {
 							const item = state.items[itemId];
 
@@ -31,6 +39,7 @@ const MenuCategory = props => {
 									item={item}
 									name={item.name}
 									index={index}
+									categoryId={id}
 								/>
 							);
 						})}
